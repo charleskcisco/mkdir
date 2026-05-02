@@ -121,7 +121,6 @@
           <a class="p-name u-url" href="{{ $page.Site.BaseURL }}">{{ $page.Site.Params.author.name | default $page.Site.Title }}</a>
         </div>
       {{ else if eq $page.Kind "page" }}
-        {{ with $page.Site.Params.author.avatar }}<img class="about-avatar" src="{{ . }}" alt="{{ $page.Site.Params.author.name }}">{{ end }}
         {{ if $page.Title }}<h1>{{ $page.Title }}</h1>{{ end }}
         <div class="e-content">{{ $page.Content }}</div>
       {{ end }}
