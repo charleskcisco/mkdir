@@ -1,7 +1,10 @@
 {{ $isPost := and .File (in (slice "post" "reply") .Type) }}
-{{ $allPostsRaw := where .Site.RegularPages "Type" "in" (slice "post" "reply") }}
+{{ $allPostsRaw := sort (where .Site.RegularPages "Type" "in" (slice "post" "reply")) "Date" "desc" }}
 {{ $allPosts := slice }}{{ $seenSB := slice }}
-{{ range $allPostsRaw }}{{ if not (in $seenSB .RelPermalink) }}{{ $allPosts = $allPosts | append . }}{{ $seenSB = $seenSB | append .RelPermalink }}{{ end }}{{ end }}
+{{ range $allPostsRaw }}
+  {{ $key := .Title | default .RelPermalink }}
+  {{ if not (in $seenSB $key) }}{{ $allPosts = $allPosts | append . }}{{ $seenSB = $seenSB | append $key }}{{ end }}
+{{ end }}
 {{ $totalCount := len $allPosts }}
 
 <footer class="statusbar" role="contentinfo">

@@ -1,7 +1,10 @@
 {{ define "main" }}
-  {{ $raw := where .Site.RegularPages "Type" "in" (slice "post" "reply") }}
+  {{ $raw := sort (where .Site.RegularPages "Type" "in" (slice "post" "reply")) "Date" "desc" }}
   {{ $posts := slice }}{{ $seen := slice }}
-  {{ range $raw }}{{ if not (in $seen .RelPermalink) }}{{ $posts = $posts | append . }}{{ $seen = $seen | append .RelPermalink }}{{ end }}{{ end }}
+  {{ range $raw }}
+    {{ $key := .Title | default .RelPermalink }}
+    {{ if not (in $seen $key) }}{{ $posts = $posts | append . }}{{ $seen = $seen | append $key }}{{ end }}
+  {{ end }}
   {{ partial "columns.html" (dict
     "page" .
     "section" "post"

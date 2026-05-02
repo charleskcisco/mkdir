@@ -17,10 +17,10 @@
 {{ $col2Pages := .col2Pages }}
 {{ $col2Title := .col2Title }}
 
-{{ $postPermalinks := slice }}{{ range where .page.Site.RegularPages "Type" "eq" "post" }}{{ $postPermalinks = $postPermalinks | append .RelPermalink }}{{ end }}
-{{ $postCount := len ($postPermalinks | uniq) }}
-{{ $replyPermalinks := slice }}{{ range where .page.Site.RegularPages "Type" "eq" "reply" }}{{ $replyPermalinks = $replyPermalinks | append .RelPermalink }}{{ end }}
-{{ $replyCount := len ($replyPermalinks | uniq) }}
+{{ $postKeys := slice }}{{ range where .page.Site.RegularPages "Type" "eq" "post" }}{{ $postKeys = $postKeys | append (.Title | default .RelPermalink) }}{{ end }}
+{{ $postCount := len ($postKeys | uniq) }}
+{{ $replyKeys := slice }}{{ range where .page.Site.RegularPages "Type" "eq" "reply" }}{{ $replyKeys = $replyKeys | append (.Title | default .RelPermalink) }}{{ end }}
+{{ $replyCount := len ($replyKeys | uniq) }}
 {{ $tagCount := len .page.Site.Taxonomies.categories }}
 
 {{ $sections := slice
