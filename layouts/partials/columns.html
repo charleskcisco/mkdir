@@ -17,8 +17,10 @@
 {{ $col2Pages := .col2Pages }}
 {{ $col2Title := .col2Title }}
 
-{{ $postCount := len (where .page.Site.RegularPages "Type" "eq" "post") }}
-{{ $replyCount := len (where .page.Site.RegularPages "Type" "eq" "reply") }}
+{{ $postPermalinks := slice }}{{ range where .page.Site.RegularPages "Type" "eq" "post" }}{{ $postPermalinks = $postPermalinks | append .RelPermalink }}{{ end }}
+{{ $postCount := len ($postPermalinks | uniq) }}
+{{ $replyPermalinks := slice }}{{ range where .page.Site.RegularPages "Type" "eq" "reply" }}{{ $replyPermalinks = $replyPermalinks | append .RelPermalink }}{{ end }}
+{{ $replyCount := len ($replyPermalinks | uniq) }}
 {{ $tagCount := len .page.Site.Taxonomies.categories }}
 
 {{ $sections := slice

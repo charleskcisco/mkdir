@@ -1,5 +1,7 @@
 {{ $isPost := and .File (in (slice "post" "reply") .Type) }}
-{{ $allPosts := where .Site.RegularPages "Type" "in" (slice "post" "reply") }}
+{{ $allPostsRaw := where .Site.RegularPages "Type" "in" (slice "post" "reply") }}
+{{ $allPosts := slice }}{{ $seenSB := slice }}
+{{ range $allPostsRaw }}{{ if not (in $seenSB .RelPermalink) }}{{ $allPosts = $allPosts | append . }}{{ $seenSB = $seenSB | append .RelPermalink }}{{ end }}{{ end }}
 {{ $totalCount := len $allPosts }}
 
 <footer class="statusbar" role="contentinfo">

@@ -1,5 +1,7 @@
 {{ define "main" }}
-  {{ $posts := where .Site.RegularPages "Type" "in" (slice "post" "reply") }}
+  {{ $raw := where .Site.RegularPages "Type" "in" (slice "post" "reply") }}
+  {{ $posts := slice }}{{ $seen := slice }}
+  {{ range $raw }}{{ if not (in $seen .RelPermalink) }}{{ $posts = $posts | append . }}{{ $seen = $seen | append .RelPermalink }}{{ end }}{{ end }}
   {{ partial "columns.html" (dict
     "page" .
     "section" "post"
