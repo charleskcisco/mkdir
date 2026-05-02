@@ -1,11 +1,9 @@
 {{ $segments := split (trim .RelPermalink "/") "/" }}
-{{ $host := replaceRE "^https?://" "" (trim .Site.BaseURL "/") }}
-{{ $host = replaceRE "/.*$" "" $host }}
 {{ $user := .Site.Params.author.username | default "blog" }}
 {{ $lastIdx := sub (len $segments) 1 }}
 <header class="topbar" role="banner">
   <span class="topbar__user">
-    <a href="{{ "/" | relURL }}">{{ $user }}@{{ $host }}</a>
+    <a href="{{ "/" | relURL }}">{{ $user }}</a>
   </span>
   <span class="topbar__path" aria-label="Path">
     {{- if .IsHome -}}
