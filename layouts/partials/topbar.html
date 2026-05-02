@@ -8,7 +8,7 @@
   </span>
   <span class="topbar__path" aria-label="Path">
     {{- if .IsHome -}}
-      <span class="topbar__current">~</span>
+      <span class="topbar__sep">~/</span><span class="topbar__current">posts</span>
     {{- else -}}
       <span class="topbar__sep">~/</span>
       {{- $accum := "" -}}
