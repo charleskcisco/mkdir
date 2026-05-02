@@ -22,9 +22,9 @@
 {{ $tagCount := len .page.Site.Taxonomies.categories }}
 
 {{ $sections := slice
-  (dict "key" "post"       "label" "posts"   "url" "/post/"       "type" "dir"  "count" $postCount)
+  (dict "key" "post"       "label" "posts"   "url" "/"            "type" "dir"  "count" $postCount)
   (dict "key" "categories" "label" "tags"    "url" "/categories/" "type" "dir"  "count" $tagCount)
-  (dict "key" "reply"      "label" "replies" "url" "/reply/"      "type" "dir"  "count" $replyCount)
+  (dict "key" "reply"      "label" "replies" "url" "/reply/"      "type" "dir"  "count" $replyCount "hidden" (eq $replyCount 0))
   (dict "key" "about"      "label" "about"   "url" "/about/"      "type" "file" "count" 0)
 }}
 
@@ -33,6 +33,7 @@
   <nav class="col col--sections{{ if not $activeSection }} col--active{{ end }}" aria-label="Sections">
     <ul class="rows">
       {{ range $sections }}
+        {{ if not .hidden }}
         {{ $isActive := eq .key $activeSection }}
         <li class="row row--{{ .type }}{{ if $isActive }} row--selected-parent{{ end }}">
           <a href="{{ .url }}">
@@ -40,6 +41,7 @@
             {{ if eq .type "dir" }}<span class="row__meta">{{ .count }}</span>{{ end }}
           </a>
         </li>
+        {{ end }}
       {{ end }}
     </ul>
   </nav>
