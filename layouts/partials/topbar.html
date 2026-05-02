@@ -1,0 +1,20 @@
+{{ $segments := split (trim .RelPermalink "/") "/" }}
+<header class="topbar" role="banner">
+  <span class="topbar__site">
+    <a href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+  </span>
+  <span class="topbar__path" aria-label="Path">
+    <span class="topbar__sep">~/</span>
+    {{ $accum := "" }}
+    {{ range $i, $seg := $segments }}
+      {{ if $seg }}
+        {{ $accum = printf "%s/%s" $accum $seg }}
+        {{ if ne $i 0 }}<span class="topbar__sep">/</span>{{ end }}
+        <a href="{{ $accum }}/">{{ $seg }}</a>
+      {{ end }}
+    {{ end }}
+  </span>
+  <span class="topbar__actions">
+    {{ partial "theme-toggle.html" . }}
+  </span>
+</header>

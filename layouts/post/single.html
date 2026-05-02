@@ -1,24 +1,11 @@
 {{ define "main" }}
-<article class="h-entry">
-  {{ partial "breadcrumb.html" . }}
-
-  {{ if .Title }}
-    <h1 class="p-name">{{ .Title }}</h1>
-  {{ else }}
-    <data class="p-name" value="{{ .Date.Format "2006-01-02 15:04" }}"></data>
-  {{ end }}
-
-  {{ partial "post-meta.html" . }}
-
-  <a class="u-url" href="{{ .Permalink }}" hidden></a>
-
-  <div class="e-content">
-    {{ .Content }}
-  </div>
-
-  <div class="p-author h-card" hidden>
-    <a class="p-name u-url" href="{{ .Site.BaseURL }}">{{ .Site.Params.author.name | default .Site.Title }}</a>
-    {{ with .Site.Params.author.avatar }}<img class="u-photo" src="{{ . }}" alt="">{{ end }}
-  </div>
-</article>
+  {{ $posts := where .Site.RegularPages "Section" "eq" "post" }}
+  {{ partial "columns.html" (dict
+    "page" .
+    "section" "post"
+    "selectedKey" .RelPermalink
+    "col2Mode" "posts"
+    "col2Pages" $posts
+    "col2Title" "post/"
+  ) }}
 {{ end }}

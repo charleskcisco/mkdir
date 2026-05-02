@@ -1,0 +1,26 @@
+{{ $isPost := and .File (in (slice "post" "reply") .Section) }}
+<footer class="statusbar" role="contentinfo">
+  <span class="statusbar__left">
+    {{ if $isPost }}
+      <span class="statusbar__field"><strong>{{ if .Title }}{{ .Title }}{{ else }}(status){{ end }}</strong></span>
+      <span class="statusbar__field">{{ .Date.Format "2006-01-02 15:04" }}</span>
+      {{ with .Params.categories }}<span class="statusbar__field">cat: {{ delimit . ", " }}</span>{{ end }}
+      {{ with .Params.tags }}<span class="statusbar__field">tags: {{ delimit . ", " }}</span>{{ end }}
+      {{ if .File }}<span class="statusbar__field">{{ .ReadingTime }}min · {{ .WordCount }}w</span>{{ end }}
+    {{ else }}
+      <span class="statusbar__field"><strong>{{ .Site.Params.author.name | default .Site.Title }}</strong></span>
+      {{ with .Site.Params.description }}<span class="statusbar__field">{{ . }}</span>{{ end }}
+    {{ end }}
+  </span>
+  <span class="statusbar__right">
+    <a href="{{ "/feed.xml" | relURL }}">feed.xml</a>
+    <a href="{{ "/feed.json" | relURL }}" style="margin-left:0.75rem;">feed.json</a>
+  </span>
+</footer>
+
+<div class="h-card-hidden h-card" aria-hidden="true">
+  <a class="p-name u-url" rel="author" href="{{ .Site.BaseURL }}">{{ .Site.Params.author.name | default .Site.Title }}</a>
+  {{ with .Site.Params.author.avatar }}<img class="u-photo" src="{{ . }}" alt="">{{ end }}
+</div>
+
+{{ if templates.Exists "partials/microblog_syndication.html" }}{{ partial "microblog_syndication.html" . }}{{ end }}

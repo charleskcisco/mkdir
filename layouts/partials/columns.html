@@ -1,0 +1,119 @@
+{{/*
+  Renders the three Ranger-style columns.
+
+  Receives a dict via partial:
+    page         - the current Hugo Page
+    section      - which top-level section is "open" (e.g. "post", "categories", "about")
+    selectedKey  - identifier for which row in column 2 is selected (e.g. .File.UniqueID, term name)
+    col2Mode     - "posts" | "terms" | "page"
+    col2Pages    - if posts: a slice of Page; if terms: a TaxonomyOrdered (.Site.Taxonomies.<name>.ByCount.Reverse)
+    col2Title    - column header text for col 2 (e.g. "post/", "categories/")
+*/}}
+
+{{ $page := .page }}
+{{ $activeSection := .section }}
+{{ $selectedKey := .selectedKey }}
+{{ $col2Mode := .col2Mode }}
+{{ $col2Pages := .col2Pages }}
+{{ $col2Title := .col2Title }}
+
+{{ $sections := slice
+  (dict "key" "post"       "label" "post/"       "url" "/post/"       "type" "dir")
+  (dict "key" "reply"      "label" "reply/"      "url" "/reply/"      "type" "dir")
+  (dict "key" "categories" "label" "categories/" "url" "/categories/" "type" "dir")
+  (dict "key" "tags"       "label" "tags/"       "url" "/tags/"       "type" "dir")
+  (dict "key" "about"      "label" "about"       "url" "/about/"      "type" "file")
+}}
+
+<div class="cols">
+  {{/* ===== Column 1: sections ===== */}}
+  <nav class="col col--sections{{ if not $activeSection }} col--active{{ end }}" aria-label="Sections">
+    <div class="col__header">~/</div>
+    <ul class="rows">
+      {{ range $sections }}
+        {{ $isActive := eq .key $activeSection }}
+        <li class="row row--{{ .type }}{{ if $isActive }} row--selected{{ end }}">
+          <a href="{{ .url }}">
+            <span class="row__glyph">{{ if eq .type "dir" }}▸{{ else }}·{{ end }}</span>
+            <span class="row__name">{{ .label }}</span>
+          </a>
+        </li>
+      {{ end }}
+    </ul>
+  </nav>
+
+  {{/* ===== Column 2: items in section ===== */}}
+  <nav class="col col--items{{ if and $activeSection (not $selectedKey) }} col--active{{ end }}" aria-label="{{ $col2Title | default "Items" }}">
+    <div class="col__header">{{ $col2Title | default "" }}</div>
+    {{ if eq $col2Mode "posts" }}
+      <ul class="rows">
+        {{ range $col2Pages }}
+          {{ $isSel := and $selectedKey (eq .RelPermalink $selectedKey) }}
+          <li class="row row--file{{ if not .Title }} row--untitled{{ end }}{{ if $isSel }} row--selected{{ end }}">
+            <a href="{{ .RelPermalink }}">
+              <span class="row__glyph">·</span>
+              <span class="row__name">{{ if .Title }}{{ .Title }}{{ else }}(status){{ end }}</span>
+              <span class="row__date">{{ .Date.Format "01-02" }}</span>
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+    {{ else if eq $col2Mode "terms" }}
+      <ul class="rows">
+        {{ range $col2Pages }}
+          {{ $url := printf "/%s/%s/" ($col2Title | default "tags" | trim "/") (.Name | urlize) }}
+          {{ $isSel := and $selectedKey (eq .Name $selectedKey) }}
+          <li class="row row--{{ if eq $col2Title "categories/" }}cat{{ else }}tag{{ end }}{{ if $isSel }} row--selected{{ end }}">
+            <a href="{{ $url }}">
+              <span class="row__glyph">▸</span>
+              <span class="row__name">{{ .Name }}/</span>
+              <span class="row__date">{{ .Count }}</span>
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+    {{ else }}
+      <div class="col__empty">—</div>
+    {{ end }}
+  </nav>
+
+  {{/* ===== Column 3: preview / body ===== */}}
+  <main class="col col--preview col--active" id="preview">
+    <article class="preview{{ if and $page.File (in (slice "post" "reply") $page.Section) }} h-entry{{ end }}">
+      {{ if $page.IsHome }}
+        <p style="font-family: var(--mono); color: var(--muted); font-size: var(--fs-meta);">Select a section on the left to begin browsing.</p>
+        {{ with $page.Site.Params.description }}<p style="font-family: var(--mono); color: var(--muted); font-size: var(--fs-meta);">{{ . }}</p>{{ end }}
+      {{ else if and $page.File (in (slice "post" "reply") $page.Section) }}
+        {{ if eq $page.Section "reply" }}
+          {{ with $page.Params.replyURL | default $page.Params.in_reply_to }}
+            <div class="reply-context">
+              ↪ replied to: <a class="u-in-reply-to" href="{{ . }}">{{ . }}</a>
+            </div>
+          {{ end }}
+        {{ end }}
+
+        {{ if $page.Title }}
+          <h1 class="p-name">{{ $page.Title }}</h1>
+        {{ else }}
+          <data class="p-name" value="{{ $page.Date.Format "2006-01-02 15:04" }}"></data>
+        {{ end }}
+
+        <div class="post-meta">
+          <time class="dt-published" datetime="{{ $page.Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ $page.Date.Format "2006-01-02 15:04 MST" }}</time>
+          {{ with $page.Params.categories }}<span>cat: {{ range $i, $c := . }}{{ if $i }}, {{ end }}<a class="p-category" href="{{ printf "/categories/%s/" ($c | urlize) }}">{{ $c }}</a>{{ end }}</span>{{ end }}
+          {{ with $page.Params.tags }}<span>tags: {{ range $i, $t := . }}{{ if $i }}, {{ end }}<a class="p-category" href="{{ printf "/tags/%s/" ($t | urlize) }}">{{ $t }}</a>{{ end }}</span>{{ end }}
+        </div>
+
+        <a class="u-url" href="{{ $page.Permalink }}" hidden></a>
+        <div class="e-content">{{ $page.Content }}</div>
+
+        <div class="p-author h-card" hidden>
+          <a class="p-name u-url" href="{{ $page.Site.BaseURL }}">{{ $page.Site.Params.author.name | default $page.Site.Title }}</a>
+        </div>
+      {{ else }}
+        {{ if $page.Title }}<h1>{{ $page.Title }}</h1>{{ end }}
+        <div class="e-content">{{ $page.Content }}</div>
+      {{ end }}
+    </article>
+  </main>
+</div>

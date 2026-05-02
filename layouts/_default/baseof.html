@@ -2,10 +2,8 @@
 <html lang="{{ .Site.Language.Lang | default "en" }}">
   {{ partial "head.html" . }}
   <body>
-    {{ partial "header.html" . }}
-    <main class="page">
-      {{ block "main" . }}{{ end }}
-    </main>
-    {{ partial "footer.html" . }}
+    {{ partial "topbar.html" . }}
+    {{ block "main" . }}{{ end }}
+    {{ partial "statusbar.html" . }}
   </body>
 </html>

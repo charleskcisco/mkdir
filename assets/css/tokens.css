@@ -3,14 +3,17 @@
   --sans: "De Gruyter Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  --fs-base: 1.125rem;
+  --fs-base: 1rem;
   --fs-small: 0.875rem;
   --fs-meta: 0.8125rem;
-  --fs-h1: 1.75rem;
-  --fs-h2: 1.375rem;
-  --fs-h3: 1.125rem;
-  --lh-body: 1.6;
-  --lh-tight: 1.25;
+  --fs-row: 0.875rem;
+  --fs-prose: 1.0625rem;
+  --fs-h1: 1.5rem;
+  --fs-h2: 1.25rem;
+  --fs-h3: 1.0625rem;
+  --lh-body: 1.65;
+  --lh-tight: 1.3;
+  --lh-row: 1.6;
 
   --s-1: 0.25rem;
   --s-2: 0.5rem;
@@ -21,24 +24,62 @@
   --s-7: 3rem;
   --s-8: 4.5rem;
 
-  --container: 38rem;
+  --topbar-h: 2.25rem;
+  --statusbar-h: 1.75rem;
+  --col-padding-x: 0.75rem;
+  --col-row-h: 1.6em;
 
+  /* Light, Ranger-shaped */
   --bg: #fafafa;
+  --bg-col: #fafafa;
+  --bg-bar: #ececec;
   --fg: #1a1a1a;
   --muted: #6e6e6e;
-  --rule: #dcdcdc;
-  --accent: #5a3e1b;
-  --accent-hover: #1a1a1a;
-  --code-bg: #f0f0f0;
+  --rule: #d4d4d4;
+  --rule-strong: #b0b0b0;
+
+  /* Selection bar (current row, derived from URL) */
+  --sel-bg: #1a1a1a;
+  --sel-fg: #fafafa;
+
+  /* "Cursor" row — hovered/focused, not selected */
+  --cur-bg: #e6e6e6;
+
+  /* Type colors (folders / files / tags / etc.) — ANSI-ish but tuned for paper */
+  --c-dir: #1c5dd6;
+  --c-file: #1a1a1a;
+  --c-tag: #8a5a00;
+  --c-cat: #1c5dd6;
+  --c-meta: #6e6e6e;
+  --c-status: #1a1a1a;
+
+  --accent: #1c5dd6;
+  --accent-hover: #0d2f7a;
+  --code-bg: #ececec;
   --selection: #ffe9b3;
 }
 
 [data-theme="dark"] {
-  --bg: #111111;
+  --bg: #0e0e0e;
+  --bg-col: #0e0e0e;
+  --bg-bar: #1c1c1c;
   --fg: #e8e6e0;
   --muted: #8a8780;
   --rule: #2a2a28;
-  --accent: #d8b27a;
+  --rule-strong: #3a3a38;
+
+  --sel-bg: #d8b27a;
+  --sel-fg: #0e0e0e;
+  --cur-bg: #1f1f1d;
+
+  --c-dir: #6aa9ff;
+  --c-file: #e8e6e0;
+  --c-tag: #f0c674;
+  --c-cat: #6aa9ff;
+  --c-meta: #8a8780;
+  --c-status: #e8e6e0;
+
+  --accent: #6aa9ff;
   --accent-hover: #f5f3ee;
   --code-bg: #1c1c1a;
   --selection: #4a3a1a;
@@ -46,11 +87,26 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --bg: #111111;
+    --bg: #0e0e0e;
+    --bg-col: #0e0e0e;
+    --bg-bar: #1c1c1c;
     --fg: #e8e6e0;
     --muted: #8a8780;
     --rule: #2a2a28;
-    --accent: #d8b27a;
+    --rule-strong: #3a3a38;
+
+    --sel-bg: #d8b27a;
+    --sel-fg: #0e0e0e;
+    --cur-bg: #1f1f1d;
+
+    --c-dir: #6aa9ff;
+    --c-file: #e8e6e0;
+    --c-tag: #f0c674;
+    --c-cat: #6aa9ff;
+    --c-meta: #8a8780;
+    --c-status: #e8e6e0;
+
+    --accent: #6aa9ff;
     --accent-hover: #f5f3ee;
     --code-bg: #1c1c1a;
     --selection: #4a3a1a;

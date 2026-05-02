@@ -1,6 +1,11 @@
 {{ define "main" }}
-<article class="page-content">
-  {{ if .Title }}<h1>{{ .Title }}</h1>{{ end }}
-  <div class="e-content">{{ .Content }}</div>
-</article>
+  {{ $section := .Section | default "" }}
+  {{ partial "columns.html" (dict
+    "page" .
+    "section" $section
+    "selectedKey" .RelPermalink
+    "col2Mode" "page"
+    "col2Pages" slice
+    "col2Title" $section
+  ) }}
 {{ end }}
