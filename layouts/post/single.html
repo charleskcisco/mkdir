@@ -1,5 +1,5 @@
 {{ define "main" }}
-  {{ $posts := where .Site.RegularPages "Section" "eq" "post" }}
+  {{ $posts := where .Site.RegularPages "Type" "eq" "post" }}
   {{ partial "columns.html" (dict
     "page" .
     "section" "post"

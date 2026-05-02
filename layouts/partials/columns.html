@@ -17,8 +17,8 @@
 {{ $col2Pages := .col2Pages }}
 {{ $col2Title := .col2Title }}
 
-{{ $postCount := len (where .page.Site.RegularPages "Section" "eq" "post") }}
-{{ $replyCount := len (where .page.Site.RegularPages "Section" "eq" "reply") }}
+{{ $postCount := len (where .page.Site.RegularPages "Type" "eq" "post") }}
+{{ $replyCount := len (where .page.Site.RegularPages "Type" "eq" "reply") }}
 {{ $tagCount := len .page.Site.Taxonomies.categories }}
 
 {{ $sections := slice
@@ -90,7 +90,7 @@
   {{/* ===== Column 3: preview / body ===== */}}
   <main class="col col--preview col--active" id="preview">
     <article class="preview{{ if and $page.File (in (slice "post" "reply") $page.Section) }} h-entry{{ end }}">
-      {{ if and (eq $page.Kind "page") (in (slice "post" "reply") $page.Section) }}
+      {{ if and (eq $page.Kind "page") (in (slice "post" "reply") $page.Type) }}
         {{ if eq $page.Section "reply" }}
           {{ with $page.Params.replyURL | default $page.Params.in_reply_to }}
             <div class="reply-context">

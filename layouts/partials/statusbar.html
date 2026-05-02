@@ -1,4 +1,4 @@
-{{ $isPost := and .File (in (slice "post" "reply") .Section) }}
+{{ $isPost := and .File (in (slice "post" "reply") .Type) }}
 {{ $allPosts := where .Site.RegularPages "Section" "in" (slice "post" "reply") }}
 {{ $totalCount := len $allPosts }}
 
