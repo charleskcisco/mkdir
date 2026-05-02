@@ -22,8 +22,8 @@
 {{ $tagCount := len .page.Site.Taxonomies.categories }}
 
 {{ $sections := slice
-  (dict "key" "post"       "label" "post"  "url" "/post/"       "type" "dir"  "count" $postCount)
-  (dict "key" "reply"      "label" "reply" "url" "/reply/"      "type" "dir"  "count" $replyCount)
+  (dict "key" "post"       "label" "posts"   "url" "/post/"       "type" "dir"  "count" $postCount)
+  (dict "key" "reply"      "label" "replies" "url" "/reply/"      "type" "dir"  "count" $replyCount)
   (dict "key" "categories" "label" "tags"  "url" "/categories/" "type" "dir"  "count" $tagCount)
   (dict "key" "about"      "label" "about" "url" "/about/"      "type" "file" "count" 0)
 }}
@@ -58,17 +58,9 @@
           {{ else }}
             {{ $name = printf "%s.md" $name }}
           {{ end }}
-          {{ $words := .WordCount }}
-          {{ $size := "" }}
-          {{ if ge $words 1000 }}
-            {{ $size = printf "%.1fK" (div (float $words) 1000.0) }}
-          {{ else }}
-            {{ $size = printf "%dB" $words }}
-          {{ end }}
           <li class="row {{ $cls }}{{ if $isSel }} row--selected-current{{ end }}">
             <a href="{{ .RelPermalink }}">
               <span class="row__name">{{ $name }}</span>
-              <span class="row__meta">{{ $size }}</span>
             </a>
           </li>
         {{ end }}

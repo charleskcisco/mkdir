@@ -8,18 +8,26 @@
     <a href="{{ "/" | relURL }}">{{ $user }}@{{ $host }}</a>
   </span>
   <span class="topbar__path" aria-label="Path">
-    {{ if .IsHome }}
+    {{- if .IsHome -}}
       <span class="topbar__current">~</span>
-    {{ else }}
-      ~<span class="topbar__sep">/</span>{{- "" -}}
-      {{ $accum := "" }}
-      {{ range $i, $seg := $segments }}
-        {{ if $seg }}
-          {{ $accum = printf "%s/%s" $accum $seg }}
+    {{- else -}}
+      <span class="topbar__sep">~/</span>
+      {{- $accum := "" -}}
+      {{- range $i, $seg := $segments -}}
+        {{- if $seg -}}
+          {{- $accum = printf "%s/%s" $accum $seg -}}
           {{- if ne $i 0 }}<span class="topbar__sep">/</span>{{ end -}}
-          {{ $display := $seg }}{{ if eq $seg "categories" }}{{ $display = "tags" }}{{ end }}{{ if eq $i $lastIdx }}<span class="topbar__current">{{ $display }}</span>{{ else }}<a href="{{ $accum }}/">{{ $display }}</a>{{ end }}
-        {{ end }}
-      {{ end }}
-    {{ end }}
+          {{- $display := $seg -}}
+          {{- if eq $seg "categories" }}{{ $display = "tags" }}{{ end -}}
+          {{- if eq $seg "post" }}{{ $display = "posts" }}{{ end -}}
+          {{- if eq $seg "reply" }}{{ $display = "replies" }}{{ end -}}
+          {{- if eq $i $lastIdx -}}
+            <span class="topbar__current">{{ $display }}</span>
+          {{- else -}}
+            <a href="{{ $accum }}/">{{ $display }}</a>
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
   </span>
 </header>
