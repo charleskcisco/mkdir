@@ -45,6 +45,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--fg);
+  margin-left: 0;
 }
 .topbar__path a {
   color: var(--fg);

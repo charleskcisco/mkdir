@@ -1,5 +1,5 @@
 {{ $isPost := and .File (in (slice "post" "reply") .Type) }}
-{{ $allPosts := where .Site.RegularPages "Section" "in" (slice "post" "reply") }}
+{{ $allPosts := where .Site.RegularPages "Type" "in" (slice "post" "reply") }}
 {{ $totalCount := len $allPosts }}
 
 <footer class="statusbar" role="contentinfo">
