@@ -3,7 +3,7 @@
   --sans: "De Gruyter Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  --fs-base: 1rem;
+  --fs-base: 0.9375rem;
   --fs-small: 0.875rem;
   --fs-meta: 0.8125rem;
   --fs-row: 0.875rem;
@@ -13,7 +13,7 @@
   --fs-h3: 1.0625rem;
   --lh-body: 1.65;
   --lh-tight: 1.3;
-  --lh-row: 1.6;
+  --lh-row: 1.55;
 
   --s-1: 0.25rem;
   --s-2: 0.5rem;
@@ -24,91 +24,101 @@
   --s-7: 3rem;
   --s-8: 4.5rem;
 
-  --topbar-h: 2.25rem;
-  --statusbar-h: 1.75rem;
+  --topbar-h: 1.875rem;
+  --statusbar-h: 1.625rem;
   --col-padding-x: 0.75rem;
-  --col-row-h: 1.6em;
+  --col-row-h: 1.55em;
 
-  /* Light, Ranger-shaped */
-  --bg: #fafafa;
-  --bg-col: #fafafa;
-  --bg-bar: #ececec;
+  /* Light, real-ranger reference */
+  --bg: #ffffff;
+  --bg-col: #ffffff;
+  --bg-bar: #ffffff;
   --fg: #1a1a1a;
-  --muted: #6e6e6e;
-  --rule: #d4d4d4;
-  --rule-strong: #b0b0b0;
+  --muted: #777777;
+  --rule: #e6e6e6;
+  --rule-strong: #cccccc;
 
-  /* Selection bar (current row, derived from URL) */
-  --sel-bg: #1a1a1a;
-  --sel-fg: #fafafa;
+  /* Selection bars — different per column to match ranger */
+  --sel-parent-bg: #c9bef0;     /* lavender, "currently-open dir" in left col */
+  --sel-parent-fg: #1a1a1a;
+  --sel-current-bg: #000000;    /* solid black, "focused row" in middle col */
+  --sel-current-fg: #ffffff;
+  --cur-bg: #f3f3f3;            /* hover */
 
-  /* "Cursor" row — hovered/focused, not selected */
-  --cur-bg: #e6e6e6;
-
-  /* Type colors (folders / files / tags / etc.) — ANSI-ish but tuned for paper */
-  --c-dir: #1c5dd6;
+  /* Type colors (ranger ANSI-ish) */
+  --c-dir: #6f5cd4;             /* bold purple for directories */
   --c-file: #1a1a1a;
-  --c-tag: #8a5a00;
-  --c-cat: #1c5dd6;
-  --c-meta: #6e6e6e;
+  --c-tag: #6f5cd4;
+  --c-image: #b58900;           /* yellow for images, unused but reserved */
+  --c-exec: #1ea34a;            /* green, unused but reserved */
+  --c-meta: #777777;
+  --c-user: #1a8a8a;            /* cyan for user@host */
   --c-status: #1a1a1a;
 
-  --accent: #1c5dd6;
-  --accent-hover: #0d2f7a;
-  --code-bg: #ececec;
+  --accent: #6f5cd4;
+  --accent-hover: #1a1a1a;
+  --code-bg: #f3f3f3;
   --selection: #ffe9b3;
 }
 
 [data-theme="dark"] {
-  --bg: #0e0e0e;
-  --bg-col: #0e0e0e;
-  --bg-bar: #1c1c1c;
+  --bg: #0a0a0a;
+  --bg-col: #0a0a0a;
+  --bg-bar: #0a0a0a;
   --fg: #e8e6e0;
   --muted: #8a8780;
-  --rule: #2a2a28;
-  --rule-strong: #3a3a38;
+  --rule: #1d1d1d;
+  --rule-strong: #2c2c2c;
 
-  --sel-bg: #d8b27a;
-  --sel-fg: #0e0e0e;
-  --cur-bg: #1f1f1d;
+  --sel-parent-bg: #4a3f7a;
+  --sel-parent-fg: #f5f3ee;
+  --sel-current-bg: #e8e6e0;
+  --sel-current-fg: #0a0a0a;
+  --cur-bg: #161616;
 
-  --c-dir: #6aa9ff;
+  --c-dir: #b39bff;
   --c-file: #e8e6e0;
-  --c-tag: #f0c674;
-  --c-cat: #6aa9ff;
+  --c-tag: #b39bff;
+  --c-image: #f0c674;
+  --c-exec: #6dd07a;
   --c-meta: #8a8780;
+  --c-user: #5fcfcf;
   --c-status: #e8e6e0;
 
-  --accent: #6aa9ff;
+  --accent: #b39bff;
   --accent-hover: #f5f3ee;
-  --code-bg: #1c1c1a;
+  --code-bg: #151515;
   --selection: #4a3a1a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --bg: #0e0e0e;
-    --bg-col: #0e0e0e;
-    --bg-bar: #1c1c1c;
+    --bg: #0a0a0a;
+    --bg-col: #0a0a0a;
+    --bg-bar: #0a0a0a;
     --fg: #e8e6e0;
     --muted: #8a8780;
-    --rule: #2a2a28;
-    --rule-strong: #3a3a38;
+    --rule: #1d1d1d;
+    --rule-strong: #2c2c2c;
 
-    --sel-bg: #d8b27a;
-    --sel-fg: #0e0e0e;
-    --cur-bg: #1f1f1d;
+    --sel-parent-bg: #4a3f7a;
+    --sel-parent-fg: #f5f3ee;
+    --sel-current-bg: #e8e6e0;
+    --sel-current-fg: #0a0a0a;
+    --cur-bg: #161616;
 
-    --c-dir: #6aa9ff;
+    --c-dir: #b39bff;
     --c-file: #e8e6e0;
-    --c-tag: #f0c674;
-    --c-cat: #6aa9ff;
+    --c-tag: #b39bff;
+    --c-image: #f0c674;
+    --c-exec: #6dd07a;
     --c-meta: #8a8780;
+    --c-user: #5fcfcf;
     --c-status: #e8e6e0;
 
-    --accent: #6aa9ff;
+    --accent: #b39bff;
     --accent-hover: #f5f3ee;
-    --code-bg: #1c1c1a;
+    --code-bg: #151515;
     --selection: #4a3a1a;
   }
 }

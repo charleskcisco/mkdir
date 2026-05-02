@@ -1,20 +1,27 @@
 {{ $isPost := and .File (in (slice "post" "reply") .Section) }}
+{{ $allPosts := where .Site.RegularPages "Section" "in" (slice "post" "reply") }}
+{{ $totalCount := len $allPosts }}
+
 <footer class="statusbar" role="contentinfo">
   <span class="statusbar__left">
     {{ if $isPost }}
-      <span class="statusbar__field"><strong>{{ if .Title }}{{ .Title }}{{ else }}(status){{ end }}</strong></span>
-      <span class="statusbar__field">{{ .Date.Format "2006-01-02 15:04" }}</span>
-      {{ with .Params.categories }}<span class="statusbar__field">cat: {{ delimit . ", " }}</span>{{ end }}
-      {{ with .Params.tags }}<span class="statusbar__field">tags: {{ delimit . ", " }}</span>{{ end }}
-      {{ if .File }}<span class="statusbar__field">{{ .ReadingTime }}min · {{ .WordCount }}w</span>{{ end }}
+      <span class="statusbar__perms">-r--r--r--</span>
+      {{ with .Params.categories }}<span class="statusbar__tags">tags: {{ delimit . ", " }}</span>{{ end }}
     {{ else }}
-      <span class="statusbar__field"><strong>{{ .Site.Params.author.name | default .Site.Title }}</strong></span>
-      {{ with .Site.Params.description }}<span class="statusbar__field">{{ . }}</span>{{ end }}
+      <span class="statusbar__perms">dr-xr-xr-x</span>
     {{ end }}
   </span>
   <span class="statusbar__right">
+    {{ partial "theme-toggle.html" . }}
+    {{ if $isPost }}
+      {{ $idx := 0 }}
+      {{ range $i, $p := $allPosts }}{{ if eq $p.RelPermalink $.RelPermalink }}{{ $idx = add $i 1 }}{{ end }}{{ end }}
+      <span class="statusbar__count">{{ $idx }}/{{ $totalCount }}</span>
+    {{ else }}
+      <span class="statusbar__count">{{ $totalCount }} posts</span>
+    {{ end }}
     <a href="{{ "/feed.xml" | relURL }}">feed.xml</a>
-    <a href="{{ "/feed.json" | relURL }}" style="margin-left:0.75rem;">feed.json</a>
+    <a href="{{ "/feed.json" | relURL }}">feed.json</a>
   </span>
 </footer>
 

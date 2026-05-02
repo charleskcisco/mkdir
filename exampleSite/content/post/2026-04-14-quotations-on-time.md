@@ -1,8 +1,7 @@
 ---
 title: "Two quotations on time for the twelfth day"
 date: 2026-04-14T09:00:00Z
-categories: ["reading"]
-tags: ["reading", "theology"]
+categories: ["reading", "theology"]
 ---
 
 Two passages I want to keep close this Eastertide. The first from George

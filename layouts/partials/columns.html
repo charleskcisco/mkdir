@@ -3,11 +3,11 @@
 
   Receives a dict via partial:
     page         - the current Hugo Page
-    section      - which top-level section is "open" (e.g. "post", "categories", "about")
-    selectedKey  - identifier for which row in column 2 is selected (e.g. .File.UniqueID, term name)
+    section      - which top-level section is "open"
+    selectedKey  - identifier for which row in column 2 is selected
     col2Mode     - "posts" | "terms" | "page"
-    col2Pages    - if posts: a slice of Page; if terms: a TaxonomyOrdered (.Site.Taxonomies.<name>.ByCount.Reverse)
-    col2Title    - column header text for col 2 (e.g. "post/", "categories/")
+    col2Pages    - if posts: a slice of Page; if terms: a TaxonomyOrdered
+    col2Title    - column header text for col 2
 */}}
 
 {{ $page := .page }}
@@ -17,25 +17,27 @@
 {{ $col2Pages := .col2Pages }}
 {{ $col2Title := .col2Title }}
 
+{{ $postCount := len (where .page.Site.RegularPages "Section" "eq" "post") }}
+{{ $replyCount := len (where .page.Site.RegularPages "Section" "eq" "reply") }}
+{{ $tagCount := len .page.Site.Taxonomies.categories }}
+
 {{ $sections := slice
-  (dict "key" "post"       "label" "post/"       "url" "/post/"       "type" "dir")
-  (dict "key" "reply"      "label" "reply/"      "url" "/reply/"      "type" "dir")
-  (dict "key" "categories" "label" "categories/" "url" "/categories/" "type" "dir")
-  (dict "key" "tags"       "label" "tags/"       "url" "/tags/"       "type" "dir")
-  (dict "key" "about"      "label" "about"       "url" "/about/"      "type" "file")
+  (dict "key" "post"       "label" "post"  "url" "/post/"       "type" "dir"  "count" $postCount)
+  (dict "key" "reply"      "label" "reply" "url" "/reply/"      "type" "dir"  "count" $replyCount)
+  (dict "key" "categories" "label" "tags"  "url" "/categories/" "type" "dir"  "count" $tagCount)
+  (dict "key" "about"      "label" "about" "url" "/about/"      "type" "file" "count" 0)
 }}
 
 <div class="cols">
   {{/* ===== Column 1: sections ===== */}}
   <nav class="col col--sections{{ if not $activeSection }} col--active{{ end }}" aria-label="Sections">
-    <div class="col__header">~/</div>
     <ul class="rows">
       {{ range $sections }}
         {{ $isActive := eq .key $activeSection }}
-        <li class="row row--{{ .type }}{{ if $isActive }} row--selected{{ end }}">
+        <li class="row row--{{ .type }}{{ if $isActive }} row--selected-parent{{ end }}">
           <a href="{{ .url }}">
-            <span class="row__glyph">{{ if eq .type "dir" }}▸{{ else }}·{{ end }}</span>
             <span class="row__name">{{ .label }}</span>
+            {{ if eq .type "dir" }}<span class="row__meta">{{ .count }}</span>{{ end }}
           </a>
         </li>
       {{ end }}
@@ -44,16 +46,29 @@
 
   {{/* ===== Column 2: items in section ===== */}}
   <nav class="col col--items{{ if and $activeSection (not $selectedKey) }} col--active{{ end }}" aria-label="{{ $col2Title | default "Items" }}">
-    <div class="col__header">{{ $col2Title | default "" }}</div>
     {{ if eq $col2Mode "posts" }}
       <ul class="rows">
         {{ range $col2Pages }}
           {{ $isSel := and $selectedKey (eq .RelPermalink $selectedKey) }}
-          <li class="row row--file{{ if not .Title }} row--untitled{{ end }}{{ if $isSel }} row--selected{{ end }}">
+          {{ $name := .Title }}
+          {{ $cls := "row--file" }}
+          {{ if not $name }}
+            {{ $name = printf "%s.md" (.Date.Format "200601021504") }}
+            {{ $cls = "row--file row--untitled" }}
+          {{ else }}
+            {{ $name = printf "%s.md" $name }}
+          {{ end }}
+          {{ $words := .WordCount }}
+          {{ $size := "" }}
+          {{ if ge $words 1000 }}
+            {{ $size = printf "%.1fK" (div (float $words) 1000.0) }}
+          {{ else }}
+            {{ $size = printf "%dB" $words }}
+          {{ end }}
+          <li class="row {{ $cls }}{{ if $isSel }} row--selected-current{{ end }}">
             <a href="{{ .RelPermalink }}">
-              <span class="row__glyph">·</span>
-              <span class="row__name">{{ if .Title }}{{ .Title }}{{ else }}(status){{ end }}</span>
-              <span class="row__date">{{ .Date.Format "01-02" }}</span>
+              <span class="row__name">{{ $name }}</span>
+              <span class="row__meta">{{ $size }}</span>
             </a>
           </li>
         {{ end }}
@@ -61,13 +76,12 @@
     {{ else if eq $col2Mode "terms" }}
       <ul class="rows">
         {{ range $col2Pages }}
-          {{ $url := printf "/%s/%s/" ($col2Title | default "tags" | trim "/") (.Name | urlize) }}
+          {{ $url := printf "/categories/%s/" (.Name | urlize) }}
           {{ $isSel := and $selectedKey (eq .Name $selectedKey) }}
-          <li class="row row--{{ if eq $col2Title "categories/" }}cat{{ else }}tag{{ end }}{{ if $isSel }} row--selected{{ end }}">
+          <li class="row row--tag-dir{{ if $isSel }} row--selected-parent{{ end }}">
             <a href="{{ $url }}">
-              <span class="row__glyph">▸</span>
-              <span class="row__name">{{ .Name }}/</span>
-              <span class="row__date">{{ .Count }}</span>
+              <span class="row__name">{{ .Name }}</span>
+              <span class="row__meta">{{ .Count }}</span>
             </a>
           </li>
         {{ end }}
@@ -81,8 +95,8 @@
   <main class="col col--preview col--active" id="preview">
     <article class="preview{{ if and $page.File (in (slice "post" "reply") $page.Section) }} h-entry{{ end }}">
       {{ if $page.IsHome }}
-        <p style="font-family: var(--mono); color: var(--muted); font-size: var(--fs-meta);">Select a section on the left to begin browsing.</p>
-        {{ with $page.Site.Params.description }}<p style="font-family: var(--mono); color: var(--muted); font-size: var(--fs-meta);">{{ . }}</p>{{ end }}
+        <p class="preview__hint">Select a section on the left to begin browsing.</p>
+        {{ with $page.Site.Params.description }}<p class="preview__hint">{{ . }}</p>{{ end }}
       {{ else if and $page.File (in (slice "post" "reply") $page.Section) }}
         {{ if eq $page.Section "reply" }}
           {{ with $page.Params.replyURL | default $page.Params.in_reply_to }}
@@ -95,13 +109,12 @@
         {{ if $page.Title }}
           <h1 class="p-name">{{ $page.Title }}</h1>
         {{ else }}
-          <data class="p-name" value="{{ $page.Date.Format "2006-01-02 15:04" }}"></data>
+          <data class="p-name" value="{{ $page.Date.Format "200601021504" }}"></data>
         {{ end }}
 
         <div class="post-meta">
           <time class="dt-published" datetime="{{ $page.Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ $page.Date.Format "2006-01-02 15:04 MST" }}</time>
-          {{ with $page.Params.categories }}<span>cat: {{ range $i, $c := . }}{{ if $i }}, {{ end }}<a class="p-category" href="{{ printf "/categories/%s/" ($c | urlize) }}">{{ $c }}</a>{{ end }}</span>{{ end }}
-          {{ with $page.Params.tags }}<span>tags: {{ range $i, $t := . }}{{ if $i }}, {{ end }}<a class="p-category" href="{{ printf "/tags/%s/" ($t | urlize) }}">{{ $t }}</a>{{ end }}</span>{{ end }}
+          {{ with $page.Params.categories }}<span>tags: {{ range $i, $t := . }}{{ if $i }}, {{ end }}<a class="p-category" href="{{ printf "/categories/%s/" ($t | urlize) }}">{{ $t }}</a>{{ end }}</span>{{ end }}
         </div>
 
         <a class="u-url" href="{{ $page.Permalink }}" hidden></a>
@@ -110,6 +123,8 @@
         <div class="p-author h-card" hidden>
           <a class="p-name u-url" href="{{ $page.Site.BaseURL }}">{{ $page.Site.Params.author.name | default $page.Site.Title }}</a>
         </div>
+      {{ else if or (eq $page.Kind "taxonomy") (eq $page.Kind "term") }}
+        <p class="preview__hint">Select an item on the left.</p>
       {{ else }}
         {{ if $page.Title }}<h1>{{ $page.Title }}</h1>{{ end }}
         <div class="e-content">{{ $page.Content }}</div>

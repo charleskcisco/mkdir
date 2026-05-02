@@ -1,11 +1,10 @@
 {{ define "main" }}
-  {{ $plural := .Data.Plural }}
   {{ partial "columns.html" (dict
     "page" .
-    "section" $plural
+    "section" "categories"
     "selectedKey" ""
     "col2Mode" "terms"
     "col2Pages" (.Data.Terms.ByCount)
-    "col2Title" (printf "%s/" $plural)
+    "col2Title" "tags/"
   ) }}
 {{ end }}

@@ -1,20 +1,25 @@
 {{ $segments := split (trim .RelPermalink "/") "/" }}
+{{ $host := replaceRE "^https?://" "" (trim .Site.BaseURL "/") }}
+{{ $host = replaceRE "/.*$" "" $host }}
+{{ $user := .Site.Params.author.username | default "blog" }}
+{{ $lastIdx := sub (len $segments) 1 }}
 <header class="topbar" role="banner">
-  <span class="topbar__site">
-    <a href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+  <span class="topbar__user">
+    <a href="{{ "/" | relURL }}">{{ $user }}@{{ $host }}</a>
   </span>
   <span class="topbar__path" aria-label="Path">
-    <span class="topbar__sep">~/</span>
-    {{ $accum := "" }}
-    {{ range $i, $seg := $segments }}
-      {{ if $seg }}
-        {{ $accum = printf "%s/%s" $accum $seg }}
-        {{ if ne $i 0 }}<span class="topbar__sep">/</span>{{ end }}
-        <a href="{{ $accum }}/">{{ $seg }}</a>
+    {{ if .IsHome }}
+      <span class="topbar__current">~</span>
+    {{ else }}
+      ~<span class="topbar__sep">/</span>{{- "" -}}
+      {{ $accum := "" }}
+      {{ range $i, $seg := $segments }}
+        {{ if $seg }}
+          {{ $accum = printf "%s/%s" $accum $seg }}
+          {{- if ne $i 0 }}<span class="topbar__sep">/</span>{{ end -}}
+          {{ $display := $seg }}{{ if eq $seg "categories" }}{{ $display = "tags" }}{{ end }}{{ if eq $i $lastIdx }}<span class="topbar__current">{{ $display }}</span>{{ else }}<a href="{{ $accum }}/">{{ $display }}</a>{{ end }}
+        {{ end }}
       {{ end }}
     {{ end }}
-  </span>
-  <span class="topbar__actions">
-    {{ partial "theme-toggle.html" . }}
   </span>
 </header>

@@ -2,7 +2,6 @@
 title: "Too much movement"
 date: 2026-05-02T14:23:00Z
 categories: ["reading"]
-tags: ["reading"]
 ---
 
 Reading Hannah Arendt this week, and bumping again into her warning about the

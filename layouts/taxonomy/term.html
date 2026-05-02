@@ -1,10 +1,10 @@
 {{ define "main" }}
   {{ partial "columns.html" (dict
     "page" .
-    "section" .Data.Plural
+    "section" "categories"
     "selectedKey" .Title
     "col2Mode" "posts"
     "col2Pages" .Pages
-    "col2Title" (printf "%s/%s/" .Data.Plural .Title)
+    "col2Title" (printf "tags/%s/" .Title)
   ) }}
 {{ end }}
