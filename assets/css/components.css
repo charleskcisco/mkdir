@@ -6,30 +6,24 @@
   line-height: var(--col-row-h);
   color: var(--c-file);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .row a {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
-  gap: var(--s-3);
+  gap: var(--s-4);
   padding: 0 var(--col-padding-x);
   color: inherit;
   text-decoration: none;
-  width: 100%;
-  overflow: hidden;
 }
 .row:hover { background: var(--cur-bg); }
 
 .row__name {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .row__meta {
   color: var(--c-meta);
-  flex-shrink: 0;
+  margin-left: auto;
+  padding-left: var(--s-4);
   font-variant-numeric: tabular-nums;
 }
 

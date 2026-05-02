@@ -1,22 +1,15 @@
 ---
 title: "Too much movement"
-date: 2026-05-02T14:23:00Z
-categories: ["reading"]
+date: 2026-05-02T10:00:44-04:00
+categories: ["technology"]
 ---
 
-Reading Hannah Arendt this week, and bumping again into her warning about the
-restlessness of the modern condition. There is, she says, a kind of motion that
-masquerades as life but is closer to escape.
+In Craig Mod's [most recent edition of his newsletter Roden](https://craigmod.com/roden/113/):
 
-> The trouble with modern theories of behaviorism is not that they are wrong but
-> that they could become true.
-> <cite>— *The Human Condition*, p. 322</cite>
+> I think a lot (too much) about [a breakfast scene](https://www.youtube.com/watch?v=mDLpHaGvM-U) in *Phantom Thread*. The one where Daniel Day-Lewis' character (the fabulously named Reynolds Woodcock), dress-maker extraordinaire (fully committed, utterly committed, consumed by dresses), is drawing, sketching, working on some design in silence while having breakfast with his new "muse" / lover, Alma. She butters the bread loudly. She pours her tea loudly. "Please, don't move so much Alma," he says. She looks at him like he's nuts (he is a little nuts). "I'm buttering my toast. I'm not moving too much." And he goes: "It's hard to ignore, it's as if you just rode a horse across the room." He finally gets up and leaves. "Too much movement. *Entirely* too much movement at breakfast," he says. Her movement has ruined the morning…
+>
+> On working days, when I'm trying to live entirely in Bookworld, that's how I feel when I have to call, say, my bank. Too much movement. *Entirely* too much movement. Calling the bank. Listening to the touchpad menu options. Going through all the details with the bank person. Too much movement.
+>
+> It's a kind of death for the creative part of the mind. The ability to enter into Bookworld is murdered by saying your account number out loud. I don't know why that's so, it just is. Maybe it has something to do with the confined particularities of accounts, of banking, of paying bills, for example. How these systems are now more and more complex. Intricate in ways that bring no pleasure or satisfaction of completion. Are never complete. Convenient, yes, in some ways but all necessitating that you: pick up the Mediation Device in order to engage.
 
-The thing I keep coming back to is how much of contemporary intellectual life
-operates by displacement: the next book, the next conversation, the next take.
-A discipline of staying — of returning to the same passage on the third reading
-and finding what was hidden in plain sight on the first — feels increasingly
-countercultural.
-
-There's a small consolation in slowness, even when it looks like nothing is
-happening.
+Too much movement. What a way to think about the complexity of the systems that stretch us beyond our reasonable limits every day.

@@ -86,10 +86,7 @@
   {{/* ===== Column 3: preview / body ===== */}}
   <main class="col col--preview col--active" id="preview">
     <article class="preview{{ if and $page.File (in (slice "post" "reply") $page.Section) }} h-entry{{ end }}">
-      {{ if $page.IsHome }}
-        <p class="preview__hint">Select a section on the left to begin browsing.</p>
-        {{ with $page.Site.Params.description }}<p class="preview__hint">{{ . }}</p>{{ end }}
-      {{ else if and $page.File (in (slice "post" "reply") $page.Section) }}
+      {{ if and $page.File (in (slice "post" "reply") $page.Section) }}
         {{ if eq $page.Section "reply" }}
           {{ with $page.Params.replyURL | default $page.Params.in_reply_to }}
             <div class="reply-context">
@@ -115,9 +112,7 @@
         <div class="p-author h-card" hidden>
           <a class="p-name u-url" href="{{ $page.Site.BaseURL }}">{{ $page.Site.Params.author.name | default $page.Site.Title }}</a>
         </div>
-      {{ else if or (eq $page.Kind "taxonomy") (eq $page.Kind "term") }}
-        <p class="preview__hint">Select an item on the left.</p>
-      {{ else }}
+      {{ else if eq $page.Kind "page" }}
         {{ if $page.Title }}<h1>{{ $page.Title }}</h1>{{ end }}
         <div class="e-content">{{ $page.Content }}</div>
       {{ end }}
