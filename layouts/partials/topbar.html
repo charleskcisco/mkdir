@@ -1,5 +1,5 @@
 {{ $segments := split (trim .RelPermalink "/") "/" }}
-{{ $user := "user" }}
+{{ $user := "browser" }}
 {{ $host := replaceRE "^https?://([^/]+).*" "$1" .Site.BaseURL }}
 {{ $lastIdx := sub (len $segments) 1 }}
 <header class="topbar" role="banner">
