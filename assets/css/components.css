@@ -129,32 +129,6 @@
 .theme-toggle__bracket { color: var(--rule); }
 .theme-toggle__pipe { color: var(--rule); }
 
-/* Terminal prompt footer */
-.prompt {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: var(--s-1);
-  margin-bottom: var(--s-3);
-}
-.prompt__user { color: var(--accent); }
-.prompt__at { color: var(--muted); }
-.prompt__host { color: var(--accent); }
-.prompt__path { color: var(--muted); }
-.prompt__sigil { color: var(--muted); margin: 0 var(--s-1); }
-.prompt__caret {
-  display: inline-block;
-  width: 0.55em;
-  height: 1em;
-  background: var(--fg);
-  vertical-align: -0.15em;
-  animation: blink 1.1s steps(2, end) infinite;
-}
-@keyframes blink { 50% { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) {
-  .prompt__caret { animation: none; }
-}
-
 .h-card-inline {
   display: flex;
   align-items: center;

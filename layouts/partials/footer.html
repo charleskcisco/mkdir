@@ -1,20 +1,11 @@
 <footer class="site-footer">
   <div class="page">
-    {{ $host := replaceRE "^https?://" "" (trim .Site.BaseURL "/") }}
-    {{ $user := .Site.Params.author.username | default "you" }}
-    <div class="prompt" aria-hidden="true">
-      <span class="prompt__user">{{ $user }}</span><span class="prompt__at">@</span><span class="prompt__host">{{ $host }}</span>
-      <span class="prompt__path">~</span>
-      <span class="prompt__sigil">$</span>
-      <span class="prompt__caret"></span>
-    </div>
-
     {{ partial "h-card.html" . }}
 
     <div class="footer-meta">
       {{ partial "theme-toggle.html" . }}
-      <a href="{{ "/feed.xml" | relURL }}">/feed.xml</a>
-      <a href="{{ "/feed.json" | relURL }}">/feed.json</a>
+      <a href="{{ "/feed.xml" | relURL }}">feed.xml</a>
+      <a href="{{ "/feed.json" | relURL }}">feed.json</a>
       {{ with .Site.Params.author.username }}<a href="https://micro.blog/{{ . }}">micro.blog/{{ . }}</a>{{ end }}
     </div>
   </div>

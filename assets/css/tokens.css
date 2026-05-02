@@ -23,13 +23,13 @@
 
   --container: 38rem;
 
-  --bg: #faf8f4;
+  --bg: #fafafa;
   --fg: #1a1a1a;
-  --muted: #6b6b66;
-  --rule: #d8d4cb;
+  --muted: #6e6e6e;
+  --rule: #dcdcdc;
   --accent: #5a3e1b;
   --accent-hover: #1a1a1a;
-  --code-bg: #efece4;
+  --code-bg: #f0f0f0;
   --selection: #ffe9b3;
 }
 
