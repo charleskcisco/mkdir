@@ -1,0 +1,11 @@
+{{ define "main" }}
+  {{ $section := .Section | default "" }}
+  {{ partial "columns.html" (dict
+    "page" .
+    "section" $section
+    "selectedKey" .RelPermalink
+    "col2Mode" "page"
+    "col2Pages" slice
+    "col2Title" $section
+  ) }}
+{{ end }}
