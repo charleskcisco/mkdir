@@ -2,9 +2,6 @@
   {{ $section := .Section | default (index (split (trim .RelPermalink "/") "/") 0) }}
   {{ $col2Mode := "posts" }}
   {{ $col2Pages := .RegularPages }}
-  {{ if not $col2Pages }}
-    {{ $col2Pages = where .Site.RegularPages "Section" "in" (slice "post" "reply") }}
-  {{ end }}
   {{ partial "columns.html" (dict
     "page" .
     "section" $section

@@ -23,9 +23,9 @@
 
 {{ $sections := slice
   (dict "key" "post"       "label" "posts"   "url" "/post/"       "type" "dir"  "count" $postCount)
+  (dict "key" "categories" "label" "tags"    "url" "/categories/" "type" "dir"  "count" $tagCount)
   (dict "key" "reply"      "label" "replies" "url" "/reply/"      "type" "dir"  "count" $replyCount)
-  (dict "key" "categories" "label" "tags"  "url" "/categories/" "type" "dir"  "count" $tagCount)
-  (dict "key" "about"      "label" "about" "url" "/about/"      "type" "file" "count" 0)
+  (dict "key" "about"      "label" "about"   "url" "/about/"      "type" "file" "count" 0)
 }}
 
 <div class="cols">
@@ -45,18 +45,20 @@
   </nav>
 
   {{/* ===== Column 2: items in section ===== */}}
+  {{ if ne $col2Mode "page" }}
   <nav class="col col--items{{ if and $activeSection (not $selectedKey) }} col--active{{ end }}" aria-label="{{ $col2Title | default "Items" }}">
     {{ if eq $col2Mode "posts" }}
+      {{ if not $col2Pages }}
+        <div class="col__empty">no entries</div>
+      {{ else }}
       <ul class="rows">
         {{ range $col2Pages }}
           {{ $isSel := and $selectedKey (eq .RelPermalink $selectedKey) }}
           {{ $name := .Title }}
           {{ $cls := "row--file" }}
           {{ if not $name }}
-            {{ $name = printf "%s.md" (.Date.Format "200601021504") }}
+            {{ $name = .Date.Format "200601021504" }}
             {{ $cls = "row--file row--untitled" }}
-          {{ else }}
-            {{ $name = printf "%s.md" $name }}
           {{ end }}
           <li class="row {{ $cls }}{{ if $isSel }} row--selected-current{{ end }}">
             <a href="{{ .RelPermalink }}">
@@ -65,6 +67,7 @@
           </li>
         {{ end }}
       </ul>
+      {{ end }}
     {{ else if eq $col2Mode "terms" }}
       <ul class="rows">
         {{ range $col2Pages }}
@@ -82,11 +85,12 @@
       <div class="col__empty">—</div>
     {{ end }}
   </nav>
+  {{ end }}
 
   {{/* ===== Column 3: preview / body ===== */}}
   <main class="col col--preview col--active" id="preview">
     <article class="preview{{ if and $page.File (in (slice "post" "reply") $page.Section) }} h-entry{{ end }}">
-      {{ if and $page.File (in (slice "post" "reply") $page.Section) }}
+      {{ if and (eq $page.Kind "page") (in (slice "post" "reply") $page.Section) }}
         {{ if eq $page.Section "reply" }}
           {{ with $page.Params.replyURL | default $page.Params.in_reply_to }}
             <div class="reply-context">
@@ -113,6 +117,7 @@
           <a class="p-name u-url" href="{{ $page.Site.BaseURL }}">{{ $page.Site.Params.author.name | default $page.Site.Title }}</a>
         </div>
       {{ else if eq $page.Kind "page" }}
+        {{ with $page.Site.Params.author.avatar }}<img class="about-avatar" src="{{ . }}" alt="{{ $page.Site.Params.author.name }}">{{ end }}
         {{ if $page.Title }}<h1>{{ $page.Title }}</h1>{{ end }}
         <div class="e-content">{{ $page.Content }}</div>
       {{ end }}

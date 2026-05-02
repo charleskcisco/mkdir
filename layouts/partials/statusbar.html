@@ -8,7 +8,7 @@
       <span class="statusbar__perms">-r--r--r--</span>
       {{ with .Params.categories }}<span class="statusbar__tags">tags: {{ delimit . ", " }}</span>{{ end }}
     {{ else }}
-      <span class="statusbar__perms">dr-xr-xr-x</span>
+      <span class="statusbar__perms">drwxr-xr-x</span>
     {{ end }}
   </span>
   <span class="statusbar__right">
