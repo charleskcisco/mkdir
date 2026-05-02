@@ -1,0 +1,12 @@
+{{ $segments := split (trim .RelPermalink "/") "/" }}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ "/" | relURL }}">~</a>
+  {{ $accum := "" }}
+  {{ range $i, $seg := $segments }}
+    {{ if $seg }}
+      {{ $accum = printf "%s/%s" $accum $seg }}
+      <span class="breadcrumb__sep">/</span><a href="{{ $accum }}/">{{ $seg }}</a>
+    {{ end }}
+  {{ end }}
+  <span class="breadcrumb__sep">/</span>
+</nav>

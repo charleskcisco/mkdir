@@ -1,0 +1,12 @@
+name = "mkdir"
+license = "MIT"
+licenselink = "https://github.com/charlescisco/mkdir/blob/main/LICENSE"
+description = "A filesystem-flavored theme for micro.blog."
+homepage = "https://github.com/charlescisco/mkdir"
+tags = ["microblog", "minimal", "monospace", "serif", "filesystem"]
+features = ["dark mode", "h-entry", "h-card"]
+min_version = "0.128.0"
+
+[author]
+  name = "Charles Cisco"
+  homepage = "https://social.charlescisco.org"

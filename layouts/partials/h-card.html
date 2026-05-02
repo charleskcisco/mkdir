@@ -1,0 +1,6 @@
+<div class="h-card-inline h-card">
+  {{ with .Site.Params.author.avatar }}<img class="u-photo" src="{{ . }}" alt="" loading="lazy">{{ end }}
+  <span>
+    <a class="p-name u-url" rel="author" href="{{ .Site.BaseURL }}">{{ .Site.Params.author.name | default .Site.Title }}</a>
+  </span>
+</div>

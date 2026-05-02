@@ -1,0 +1,58 @@
+:root {
+  --serif: "De Gruyter Serif", "Iowan Old Style", "Source Serif 4", Georgia, serif;
+  --sans: "De Gruyter Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --fs-base: 1.125rem;
+  --fs-small: 0.875rem;
+  --fs-meta: 0.8125rem;
+  --fs-h1: 1.75rem;
+  --fs-h2: 1.375rem;
+  --fs-h3: 1.125rem;
+  --lh-body: 1.6;
+  --lh-tight: 1.25;
+
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4.5rem;
+
+  --container: 38rem;
+
+  --bg: #faf8f4;
+  --fg: #1a1a1a;
+  --muted: #6b6b66;
+  --rule: #d8d4cb;
+  --accent: #5a3e1b;
+  --accent-hover: #1a1a1a;
+  --code-bg: #efece4;
+  --selection: #ffe9b3;
+}
+
+[data-theme="dark"] {
+  --bg: #111111;
+  --fg: #e8e6e0;
+  --muted: #8a8780;
+  --rule: #2a2a28;
+  --accent: #d8b27a;
+  --accent-hover: #f5f3ee;
+  --code-bg: #1c1c1a;
+  --selection: #4a3a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #111111;
+    --fg: #e8e6e0;
+    --muted: #8a8780;
+    --rule: #2a2a28;
+    --accent: #d8b27a;
+    --accent-hover: #f5f3ee;
+    --code-bg: #1c1c1a;
+    --selection: #4a3a1a;
+  }
+}

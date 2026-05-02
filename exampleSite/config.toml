@@ -1,0 +1,42 @@
+baseURL = "http://localhost:1313/"
+title = "social.charlescisco.org"
+theme = "mkdir"
+disableKinds = []
+
+[languages]
+  [languages.en]
+    locale = "en-us"
+    weight = 1
+
+[pagination]
+  pagerSize = 20
+
+[params]
+description = "Notes on reading, theology, and the humanities."
+
+  [params.author]
+  name = "Charles Cisco"
+  username = "charles"
+  avatar = ""
+
+[taxonomies]
+category = "categories"
+tag = "tags"
+
+[menu]
+  [[menu.main]]
+    name = "archive"
+    url = "/archive/"
+    weight = 10
+  [[menu.main]]
+    name = "about"
+    url = "/about/"
+    weight = 20
+  [[menu.main]]
+    name = "categories/reading"
+    url = "/categories/reading/"
+    weight = 30
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true

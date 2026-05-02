@@ -1,0 +1,26 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
+  {{ with .Description | default .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") {
+          document.documentElement.setAttribute("data-theme", t);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  {{ $tokens := resources.Get "css/tokens.css" }}
+  {{ $type := resources.Get "css/typography.css" }}
+  {{ $layout := resources.Get "css/layout.css" }}
+  {{ $components := resources.Get "css/components.css" }}
+  {{ $css := slice $tokens $type $layout $components | resources.Concat "css/bundle.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+
+  {{ if templates.Exists "partials/microblog_head.html" }}{{ partial "microblog_head.html" . }}{{ end }}
+</head>

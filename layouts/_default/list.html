@@ -1,0 +1,23 @@
+{{ define "main" }}
+{{ partial "breadcrumb.html" . }}
+<h1>~/{{ .Title | default .Section | lower }}/</h1>
+
+{{ with .Content }}<div class="e-content">{{ . }}</div>{{ end }}
+
+{{ $pages := .RegularPages }}
+{{ if not $pages }}
+  {{ $pages = where .Site.RegularPages "Section" "in" (slice "post" "reply") }}
+{{ end }}
+{{ $pages = where $pages "Date" "ne" (time "0001-01-01") }}
+
+<div class="tree" role="list">
+  {{ range $byYear := $pages.GroupByDate "2006" }}
+    <span class="tree__year" role="listitem">{{ $byYear.Key }}/</span>
+    {{ $count := len $byYear.Pages }}
+    {{ range $i, $p := $byYear.Pages }}
+      {{- $last := eq (add $i 1) $count -}}
+      <span class="tree__row" role="listitem"><span class="tree__glyph">{{ if $last }}└── {{ else }}├── {{ end }}</span><span class="tree__date">{{ $p.Date.Format "01/02" }} — </span>{{ if $p.Title }}<a class="tree__title" href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>{{ else }}<a class="tree__title tree__title--untitled" href="{{ $p.RelPermalink }}">(status)</a>{{ end }}</span>
+    {{ end }}
+  {{ end }}
+</div>
+{{ end }}

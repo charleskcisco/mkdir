@@ -1,0 +1,34 @@
+<span class="theme-toggle" role="group" aria-label="Color theme">
+  <span class="theme-toggle__bracket">[</span>
+  <button type="button" data-theme-set="light" aria-pressed="false">light</button>
+  <span class="theme-toggle__pipe">|</span>
+  <button type="button" data-theme-set="dark" aria-pressed="false">dark</button>
+  <span class="theme-toggle__pipe">|</span>
+  <button type="button" data-theme-set="auto" aria-pressed="false">auto</button>
+  <span class="theme-toggle__bracket">]</span>
+</span>
+<script>
+  (function () {
+    var btns = document.querySelectorAll('[data-theme-set]');
+    function sync() {
+      var t = localStorage.getItem('theme') || 'auto';
+      btns.forEach(function (b) {
+        b.setAttribute('aria-pressed', b.dataset.themeSet === t ? 'true' : 'false');
+      });
+    }
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var t = b.dataset.themeSet;
+        if (t === 'auto') {
+          localStorage.removeItem('theme');
+          document.documentElement.removeAttribute('data-theme');
+        } else {
+          localStorage.setItem('theme', t);
+          document.documentElement.setAttribute('data-theme', t);
+        }
+        sync();
+      });
+    });
+    sync();
+  })();
+</script>
