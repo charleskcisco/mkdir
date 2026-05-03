@@ -40,12 +40,11 @@ body {
 .topbar__user a { color: inherit; text-decoration: none; }
 .topbar__user a:hover { text-decoration: underline; }
 .topbar__path {
-  flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--fg);
-  margin-left: 0;
+  margin-left: auto;
 }
 .topbar__path a {
   color: var(--fg);
