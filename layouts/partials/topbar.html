@@ -4,7 +4,7 @@
 {{ $lastIdx := sub (len $segments) 1 }}
 <header class="topbar" role="banner">
   <span class="topbar__user">
-    <a href="{{ "/" | relURL }}">{{ $user }}@{{ $host }}</a>
+    <a href="{{ "/" | relURL }}">{{ $host }}</a>
   </span>
   <span class="topbar__path" aria-label="Path">
     {{- if .IsHome -}}
