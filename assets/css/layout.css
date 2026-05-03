@@ -186,6 +186,10 @@ body {
   /* Active list/preview pane below the nav */
   .col--items, .col--preview { grid-row: 2; }
 
+  /* Statusbar: drop perms and post count on mobile */
+  .statusbar__perms,
+  .statusbar__count { display: none; }
+
   /* Allow long titles to wrap inside col 2 / col 3 on mobile */
   .col--items .row,
   .col--items .row__name {

@@ -25,8 +25,7 @@
     {{ else }}
       <span class="statusbar__count">{{ $totalCount }} posts</span>
     {{ end }}
-    <a href="{{ "/feed.xml" | relURL }}">feed.xml</a>
-    <a href="{{ "/feed.json" | relURL }}">feed.json</a>
+    <a href="{{ "/feed.xml" | relURL }}" title="RSS · also available as JSON Feed at /feed.json">feed</a>
   </span>
 </footer>
 
