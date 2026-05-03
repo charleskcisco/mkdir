@@ -145,7 +145,7 @@
   {{ end }}
 
   {{/* ===== Column 3: preview / body ===== */}}
-  <main class="col col--preview col--active" id="preview">
+  <main class="col col--preview{{ if eq $page.Kind "page" }} col--active{{ end }}" id="preview">
     <article class="preview{{ if and $page.File (in (slice "post" "reply") $page.Section) }} h-entry{{ end }}">
       {{ if and (eq $page.Kind "page") (in (slice "post" "reply") $page.Type) }}
         {{ if eq $page.Section "reply" }}
