@@ -180,8 +180,7 @@ body {
     padding: var(--s-2) var(--s-3);
   }
   .col--sections .row__meta {
-    margin-left: 0;
-    padding-left: 0;
+    display: none;
   }
 
   /* Active list/preview pane below the nav */
