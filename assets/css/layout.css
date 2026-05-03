@@ -136,7 +136,7 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Mobile: collapse to single column, show only the deepest pane */
+/* Mobile: collapse columns, show sections nav as a horizontal strip */
 @media (max-width: 56rem) {
   :root {
     --fs-base: 1rem;
@@ -146,14 +146,61 @@ body {
     --statusbar-h: 2.25rem;
     --col-padding-x: 1rem;
   }
-  .cols { grid-template-columns: 1fr; }
+  .cols {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
   .col { display: none; }
   .col--active { display: block; }
-  /* Allow long titles to wrap instead of overflowing */
-  .row, .row__name { white-space: normal; word-break: break-word; }
-  .row a {
+
+  /* Sections (col 1) always visible as a horizontal nav at the top */
+  .col--sections {
+    display: block;
+    grid-row: 1;
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg-bar);
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .col--sections .rows {
+    display: flex;
+    padding: 0;
+    gap: 0;
+  }
+  .col--sections .row {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    border-right: 1px solid var(--rule);
+  }
+  .col--sections .row a {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding: var(--s-2) var(--s-3);
+  }
+  .col--sections .row__meta {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  /* Active list/preview pane below the nav */
+  .col--items, .col--preview { grid-row: 2; }
+
+  /* Allow long titles to wrap inside col 2 / col 3 on mobile */
+  .col--items .row,
+  .col--items .row__name {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .col--items .row a {
     align-items: flex-start;
     padding-top: var(--s-2);
     padding-bottom: var(--s-2);
+  }
+  .col--items .row__name {
+    min-width: 0;
+    flex: 1 1 auto;
   }
 }
