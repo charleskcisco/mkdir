@@ -16,6 +16,12 @@
         var v = new URLSearchParams(location.search).get("view");
         if (v === "notes") {
           document.documentElement.setAttribute("data-view", "notes");
+          document.addEventListener("DOMContentLoaded", function () {
+            var t = document.querySelector(".row--view-titled.row--selected-parent");
+            if (t) t.classList.remove("row--selected-parent");
+            var n = document.querySelector(".row--view-notes");
+            if (n) n.classList.add("row--selected-parent");
+          });
         }
       } catch (e) {}
     })();

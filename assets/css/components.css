@@ -79,22 +79,6 @@ html[data-view="notes"] .list-notes,
 html[data-view="notes"] .col__empty.list-notes,
 html[data-view="notes"] .topbar__current--notes { display: revert; }
 
-/* Sidebar selection: only highlight the matching view entry */
-html[data-view="notes"] .row--view-titled.row--selected-parent {
-  background: transparent;
-}
-html[data-view="notes"] .row--view-titled.row--selected-parent .row__name,
-html[data-view="notes"] .row--view-titled.row--selected-parent .row__meta {
-  color: var(--c-file) !important;
-}
-html:not([data-view="notes"]) .row--view-notes.row--selected-parent {
-  background: transparent;
-}
-html:not([data-view="notes"]) .row--view-notes.row--selected-parent .row__name,
-html:not([data-view="notes"]) .row--view-notes.row--selected-parent .row__meta {
-  color: var(--c-file) !important;
-}
-
 /* ===== Right column: post body / preview ===== */
 .preview {
   padding: var(--s-5) var(--s-6);

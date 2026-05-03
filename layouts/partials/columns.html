@@ -51,8 +51,8 @@
         {{ if .view }}
           {{ $viewClass = printf " row--view-%s" .view }}
           {{ if and $isHome (eq $activeSection "post") }}
-            {{/* both view rows get selected; CSS hides inactive based on data-view */}}
-            {{ $isActive = true }}
+            {{/* on home, server marks the default (titled) selected; JS swaps for ?view=notes */}}
+            {{ if eq .view "titled" }}{{ $isActive = true }}{{ end }}
           {{ else if eq $activeView .view }}
             {{ $isActive = true }}
           {{ end }}
