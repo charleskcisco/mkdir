@@ -20,6 +20,9 @@
 .row__name {
   white-space: nowrap;
 }
+
+/* Center column (item titles) sits a touch smaller than the sections nav */
+.col--items .row { font-size: 0.9375rem; }
 .row__meta {
   color: var(--c-meta);
   margin-left: auto;
