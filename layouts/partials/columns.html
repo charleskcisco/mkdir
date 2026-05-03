@@ -12,19 +12,29 @@
 
 {{ $page := .page }}
 {{ $activeSection := .section }}
+{{ $activeView := .activeView }}
 {{ $selectedKey := .selectedKey }}
 {{ $col2Mode := .col2Mode }}
 {{ $col2Pages := .col2Pages }}
 {{ $col2Title := .col2Title }}
+{{ $col2PagesAlt := .col2PagesAlt }}
+{{ $col2TitleAlt := .col2TitleAlt }}
+{{ $isHome := $page.IsHome }}
 
-{{ $postKeys := slice }}{{ range where .page.Site.RegularPages "Type" "eq" "post" }}{{ $postKeys = $postKeys | append (.Title | default .RelPermalink) }}{{ end }}
-{{ $postCount := len ($postKeys | uniq) }}
+{{ $titledKeys := slice }}{{ $untitledKeys := slice }}
+{{ range where .page.Site.RegularPages "Type" "eq" "post" }}
+  {{ $k := .Title | default .RelPermalink }}
+  {{ if .Title }}{{ $titledKeys = $titledKeys | append $k }}{{ else }}{{ $untitledKeys = $untitledKeys | append $k }}{{ end }}
+{{ end }}
+{{ $titledCount := len ($titledKeys | uniq) }}
+{{ $untitledCount := len ($untitledKeys | uniq) }}
 {{ $replyKeys := slice }}{{ range where .page.Site.RegularPages "Type" "eq" "reply" }}{{ $replyKeys = $replyKeys | append (.Title | default .RelPermalink) }}{{ end }}
 {{ $replyCount := len ($replyKeys | uniq) }}
 {{ $tagCount := len .page.Site.Taxonomies.categories }}
 
 {{ $sections := slice
-  (dict "key" "post"       "label" "posts"   "url" "/"            "type" "dir"  "count" $postCount)
+  (dict "key" "post"       "view" "titled" "label" "posts"   "url" "/"            "type" "dir"  "count" $titledCount)
+  (dict "key" "notes"      "view" "notes"  "label" "notes"   "url" "/?view=notes" "type" "dir"  "count" $untitledCount)
   (dict "key" "categories" "label" "tags"    "url" "/categories/" "type" "dir"  "count" $tagCount)
   (dict "key" "reply"      "label" "replies" "url" "/reply/"      "type" "dir"  "count" $replyCount "hidden" (eq $replyCount 0))
   (dict "key" "about"      "label" "about"   "url" "/about/"      "type" "file" "count" 0)
@@ -36,8 +46,20 @@
     <ul class="rows">
       {{ range $sections }}
         {{ if not .hidden }}
-        {{ $isActive := eq .key $activeSection }}
-        <li class="row row--{{ .type }}{{ if $isActive }} row--selected-parent{{ end }}">
+        {{ $isActive := false }}
+        {{ $viewClass := "" }}
+        {{ if .view }}
+          {{ $viewClass = printf " row--view-%s" .view }}
+          {{ if and $isHome (eq $activeSection "post") }}
+            {{/* both view rows get selected; CSS hides inactive based on data-view */}}
+            {{ $isActive = true }}
+          {{ else if eq $activeView .view }}
+            {{ $isActive = true }}
+          {{ end }}
+        {{ else }}
+          {{ if eq .key $activeSection }}{{ $isActive = true }}{{ end }}
+        {{ end }}
+        <li class="row row--{{ .type }}{{ $viewClass }}{{ if $isActive }} row--selected-parent{{ end }}">
           <a href="{{ .url }}">
             <span class="row__name">{{ .label }}</span>
             {{ if eq .type "dir" }}<span class="row__meta">{{ .count }}</span>{{ end }}
@@ -52,6 +74,36 @@
   {{ if ne $col2Mode "page" }}
   <nav class="col col--items{{ if and $activeSection (not $selectedKey) }} col--active{{ end }}" aria-label="{{ $col2Title | default "Items" }}">
     {{ if eq $col2Mode "posts" }}
+      {{ if $isHome }}
+        {{/* Homepage: render both titled (default) and notes lists; CSS toggles via [data-view] */}}
+        {{ if not $col2Pages }}
+          <div class="col__empty list-titled">no entries</div>
+        {{ else }}
+        <ul class="rows list-titled">
+          {{ range $col2Pages }}
+            <li class="row row--file">
+              <a href="{{ .RelPermalink }}">
+                <span class="row__name">{{ .Title }}</span>
+              </a>
+            </li>
+          {{ end }}
+        </ul>
+        {{ end }}
+        {{ if not $col2PagesAlt }}
+          <div class="col__empty list-notes">no entries</div>
+        {{ else }}
+        <ul class="rows list-notes">
+          {{ range $col2PagesAlt }}
+            {{ $name := .Date.Format "200601021504" }}
+            <li class="row row--file row--untitled">
+              <a href="{{ .RelPermalink }}">
+                <span class="row__name">{{ $name }}</span>
+              </a>
+            </li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      {{ else }}
       {{ if not $col2Pages }}
         <div class="col__empty">no entries</div>
       {{ else }}
@@ -71,6 +123,7 @@
           </li>
         {{ end }}
       </ul>
+      {{ end }}
       {{ end }}
     {{ else if eq $col2Mode "terms" }}
       <ul class="rows">

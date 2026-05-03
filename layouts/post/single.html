@@ -5,12 +5,20 @@
     {{ $key := .Title | default .RelPermalink }}
     {{ if not (in $seen $key) }}{{ $posts = $posts | append . }}{{ $seen = $seen | append $key }}{{ end }}
   {{ end }}
+  {{ $view := cond (ne .Title "") "titled" "notes" }}
+  {{ $col2 := slice }}
+  {{ range $posts }}
+    {{ if eq $view "titled" }}{{ if .Title }}{{ $col2 = $col2 | append . }}{{ end }}
+    {{ else }}{{ if not .Title }}{{ $col2 = $col2 | append . }}{{ end }}{{ end }}
+  {{ end }}
+  {{ $title := cond (eq $view "titled") "post/" "notes/" }}
   {{ partial "columns.html" (dict
     "page" .
     "section" "post"
+    "activeView" $view
     "selectedKey" .RelPermalink
     "col2Mode" "posts"
-    "col2Pages" $posts
-    "col2Title" "post/"
+    "col2Pages" $col2
+    "col2Title" $title
   ) }}
 {{ end }}

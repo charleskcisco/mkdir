@@ -1,16 +1,23 @@
 {{ define "main" }}
-  {{ $raw := sort (where .Site.RegularPages "Type" "in" (slice "post" "reply")) "Date" "desc" }}
+  {{ $raw := sort (where .Site.RegularPages "Type" "eq" "post") "Date" "desc" }}
   {{ $posts := slice }}{{ $seen := slice }}
   {{ range $raw }}
     {{ $key := .Title | default .RelPermalink }}
     {{ if not (in $seen $key) }}{{ $posts = $posts | append . }}{{ $seen = $seen | append $key }}{{ end }}
   {{ end }}
+  {{ $titled := slice }}{{ $untitled := slice }}
+  {{ range $posts }}
+    {{ if .Title }}{{ $titled = $titled | append . }}{{ else }}{{ $untitled = $untitled | append . }}{{ end }}
+  {{ end }}
   {{ partial "columns.html" (dict
     "page" .
     "section" "post"
+    "activeView" ""
     "selectedKey" ""
     "col2Mode" "posts"
-    "col2Pages" $posts
+    "col2Pages" $titled
     "col2Title" "post/"
+    "col2PagesAlt" $untitled
+    "col2TitleAlt" "notes/"
   ) }}
 {{ end }}

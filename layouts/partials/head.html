@@ -12,6 +12,12 @@
           document.documentElement.setAttribute("data-theme", t);
         }
       } catch (e) {}
+      try {
+        var v = new URLSearchParams(location.search).get("view");
+        if (v === "notes") {
+          document.documentElement.setAttribute("data-view", "notes");
+        }
+      } catch (e) {}
     })();
   </script>
 
